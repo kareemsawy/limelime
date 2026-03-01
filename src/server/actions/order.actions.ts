@@ -23,7 +23,7 @@ export async function createCheckoutSession(
   const session = await getServerSession(authOptions);
   if (!items.length) return { url: null, error: "Cart is empty" };
 
-  const productIds = [...new Set(items.map((i) => i.productId))];
+  const productIds = Array.from(new Set(items.map((i) => i.productId)));
   const products = await db.product.findMany({
     where: { id: { in: productIds }, status: "PUBLISHED" },
     include: { variants: true },
