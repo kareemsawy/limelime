@@ -1,10 +1,11 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const getResend = () => new Resend(process.env.RESEND_API_KEY ?? "placeholder");
 
 export async function sendOrderConfirmationEmail({
   to, orderNumber, total,
 }: { to: string; orderNumber: string; total: number }) {
+  const resend = getResend();
   const { error } = await resend.emails.send({
     from: process.env.RESEND_FROM_EMAIL ?? "orders@limelime.com",
     to,
@@ -31,6 +32,7 @@ export async function subscribeToNewsletter(email: string): Promise<boolean> {
     return true;
   }
   try {
+    const resend = getResend();
     const { error } = await resend.contacts.create({ email, audienceId });
     return !error;
   } catch (err) {
