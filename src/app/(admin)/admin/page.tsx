@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { db } from "@/lib/db";
 import { formatPrice } from "@/lib/utils";
 import { unstable_cache } from "next/cache";
